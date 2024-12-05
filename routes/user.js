@@ -3,9 +3,9 @@ const { google } = require("googleapis");
 let router = express.Router();
 require("dotenv").config();
 
-router.post("/signin", async (req, res) => {
+router.post("/schedule", async (req, res) => {
   try {
-    const { email, password, ip, browser } = req.body;
+    const { pickup_location, destination_location, trip_date, trip_type } = req.body;
 
     const auth = new google.auth.GoogleAuth({
       keyFile: "credentials.json",
@@ -13,7 +13,7 @@ router.post("/signin", async (req, res) => {
     });
 
     const client = await auth.getClient();
-    const spreadsheetId = "1SWOn5RJ-tEvVwhXQIiZ2U2mcHxYj3La502bt4xQ6oz0";
+    const spreadsheetId = "1I7wjdAfmqP2YJO76tjxOa32NsVKnRx79oFB8UGzw4SE";
     const googleSheets = google.sheets({
       version: "v4",
       auth: client,
@@ -25,12 +25,12 @@ router.post("/signin", async (req, res) => {
       range: "Sheet1!A:B",
       valueInputOption: "USER_ENTERED",
       resource: {
-        values: [[email, password, ip, browser]],
+        values: [[pickup_location, destination_location, trip_date, trip_type]],
       },
     });
 
     return res.status(200).json({
-      successMessage: "Thanks for signing up.",
+      successMessage: "Booking request was sent successfully..",
     });
 
   } catch (error) {

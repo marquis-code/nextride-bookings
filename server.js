@@ -7,9 +7,7 @@ dotenv.config();
 
 const cookieParser = require("cookie-parser");
 const port = process.env.PORT || 3000;
-const connectDB = require("./config/db.config");
 
-connectDB();
 
 const corsOptions = {
   credentials: true,
@@ -23,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const userRouter = require("./routes/user");
 
-app.use("/api/auth", userRouter);
+app.use("/api/booking", userRouter);
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
